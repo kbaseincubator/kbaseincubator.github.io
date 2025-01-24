@@ -126,43 +126,54 @@
         })
         .catch(error => console.error('Error fetching data:', error));
 
-    function createRepoCard(repoName, workflows) {
-        const repoCard = document.createElement('div');
-        repoCard.className = 'repo-card';
+const excludedWorkflows = [
+    "Pull Request Build, Tag, & Push",
+    "Release - Build & Push Image",
+    "Manual Build & Push"
+];
 
-        const title = document.createElement('div');
-        title.className = 'repo-title';
-        title.textContent = repoName;
-        repoCard.appendChild(title);
+function createRepoCard(repoName, workflows) {
+    const repoCard = document.createElement('div');
+    repoCard.className = 'repo-card';
 
-        if (workflows.length === 0) {
-            const noWorkflows = document.createElement('div');
-            noWorkflows.textContent = "No workflows found.";
-            repoCard.appendChild(noWorkflows);
-        } else {
-            workflows.forEach(workflow => {
-                const workflowDiv = document.createElement('div');
-                workflowDiv.className = 'workflow';
-                workflowDiv.innerHTML = `
-                    <strong>${workflow.name}</strong>
-                    <div class="workflow-metrics">
-                        <span>Success: ${workflow.metrics.success_rate.toFixed(2)}%</span>
-                        <span>Failure: ${workflow.metrics.failure_rate.toFixed(2)}%</span>
-                        <span>Avg Time: ${(workflow.metrics.avg_duration / 60).toFixed(2)} minutes</span>
-                    </div>
-                `;
-                const viewDetails = document.createElement('a');
-                viewDetails.href = "#";
-                viewDetails.className = 'btn-view';
-                viewDetails.textContent = 'View Details';
-                viewDetails.onclick = () => showWorkflowDetails(repoName, workflow);
-                workflowDiv.appendChild(viewDetails);
-                repoCard.appendChild(workflowDiv);
-            });
-        }
+    const title = document.createElement('div');
+    title.className = 'repo-title';
+    title.textContent = repoName;
+    repoCard.appendChild(title);
 
-        return repoCard;
+    // Filter out excluded workflows
+    const filteredWorkflows = workflows.filter(
+        workflow => !excludedWorkflows.includes(workflow.name)
+    );
+
+    if (filteredWorkflows.length === 0) {
+        const noWorkflows = document.createElement('div');
+        noWorkflows.textContent = "No relevant workflows found.";
+        repoCard.appendChild(noWorkflows);
+    } else {
+        filteredWorkflows.forEach(workflow => {
+            const workflowDiv = document.createElement('div');
+            workflowDiv.className = 'workflow';
+            workflowDiv.innerHTML = `
+                <strong>${workflow.name}</strong>
+                <div class="workflow-metrics">
+                    <span>Success: ${workflow.metrics.success_rate.toFixed(2)}%</span>
+                    <span>Failure: ${workflow.metrics.failure_rate.toFixed(2)}%</span>
+                    <span>Avg Time: ${(workflow.metrics.avg_duration / 60).toFixed(2)} minutes</span>
+                </div>
+            `;
+            const viewDetails = document.createElement('a');
+            viewDetails.href = "#";
+            viewDetails.className = 'btn-view';
+            viewDetails.textContent = 'View Details';
+            viewDetails.onclick = () => showWorkflowDetails(repoName, workflow);
+            workflowDiv.appendChild(viewDetails);
+            repoCard.appendChild(workflowDiv);
+        });
     }
+
+    return repoCard;
+}
 
     function showWorkflowDetails(repoName, workflow) {
         alert(`Repo: ${repoName}\nWorkflow: ${workflow.name}\nMetrics: ${JSON.stringify(workflow.metrics, null, 2)}`);
