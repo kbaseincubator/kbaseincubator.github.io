@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Actions Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .controls {
+            padding: 20px;
+            background: #007bff;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .controls input,
+        .controls select {
+            padding: 8px;
+            margin: 5px;
+            border-radius: 4px;
+            border: none;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            justify-content: center;
+        }
+        .repo-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 16px;
+            width: 320px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .repo-card:hover {
+            transform: scale(1.05);
+        }
+        .repo-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+            text-align: center;
+        }
+        .workflow {
+            margin-bottom: 12px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+        .workflow strong {
+            font-size: 16px;
+        }
+        .workflow-metrics {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+        .btn-view {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-view:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="controls">
+    <input type="text" id="searchInput" placeholder="Search repositories...">
+    <select id="sortSelect">
+        <option value="name-asc">Sort by Name (A-Z)</option>
+        <option value="name-desc">Sort by Name (Z-A)</option>
+        <option value="success-rate-desc">Sort by Success Rate (High-Low)</option>
+        <option value="success-rate-asc">Sort by Success Rate (Low-High)</option>
+    </select>
+    <select id="filterSelect">
+        <option value="all">Show All</option>
+        <option value="with-workflows">With Workflows</option>
+        <option value="without-workflows">Without Workflows</option>
+    </select>
+</div>
+
+<div class="container" id="repoContainer"></div>
+
+<script>
+    let data = fetch('github_actions.json')
+        .then(response => response.json())
+        .then(data => {
+            renderDashboard(data);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    let filteredData = {}; // Filtered data to display
+
+    // Fetch data from JSON file
+    fetch('github_actions.json')
+        .then(response => response.json())
+        .then(fetchedData => {
+            data = fetchedData;
+            filteredData = { ...data }; // Copy data for filtering
+            renderDashboard(filteredData);
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+    function createRepoCard(repoName, workflows) {
+        const repoCard = document.createElement('div');
+        repoCard.className = 'repo-card';
+
+        const title = document.createElement('div');
+        title.className = 'repo-title';
+        title.textContent = repoName;
+        repoCard.appendChild(title);
+
+        if (workflows.length === 0) {
+            const noWorkflows = document.createElement('div');
+            noWorkflows.textContent = "No workflows found.";
+            repoCard.appendChild(noWorkflows);
+        } else {
+            workflows.forEach(workflow => {
+                const workflowDiv = document.createElement('div');
+                workflowDiv.className = 'workflow';
+                workflowDiv.innerHTML = `
+                    <strong>${workflow.name}</strong>
+                    <div class="workflow-metrics">
+                        <span>Success: ${workflow.metrics.success_rate.toFixed(2)}%</span>
+                        <span>Failure: ${workflow.metrics.failure_rate.toFixed(2)}%</span>
+                        <span>Avg Time: ${(workflow.metrics.avg_duration / 60).toFixed(2)} minutes</span>
+                    </div>
+                `;
+                const viewDetails = document.createElement('a');
+                viewDetails.href = "#";
+                viewDetails.className = 'btn-view';
+                viewDetails.textContent = 'View Details';
+                viewDetails.onclick = () => showWorkflowDetails(repoName, workflow);
+                workflowDiv.appendChild(viewDetails);
+                repoCard.appendChild(workflowDiv);
+            });
+        }
+
+        return repoCard;
+    }
+
+    function showWorkflowDetails(repoName, workflow) {
+        alert(`Repo: ${repoName}\nWorkflow: ${workflow.name}\nMetrics: ${JSON.stringify(workflow.metrics, null, 2)}`);
+    }
+
+    function renderDashboard(data) {
+        const container = document.getElementById('repoContainer');
+        container.innerHTML = ''; // Clear previous cards
+        Object.keys(data).forEach(repoName => {
+            const repoWorkflows = data[repoName];
+            const repoCard = createRepoCard(repoName, repoWorkflows);
+            container.appendChild(repoCard);
+        });
+    }
+
+    // Filter Functions
+    document.getElementById('searchInput').addEventListener('input', function () {
+        const searchValue = this.value.toLowerCase();
+        filteredData = {};
+        Object.keys(data).forEach(repoName => {
+            if (repoName.toLowerCase().includes(searchValue)) {
+                filteredData[repoName] = data[repoName];
+            }
+        });
+        renderDashboard(filteredData);
+    });
+
+    document.getElementById('sortSelect').addEventListener('change', function () {
+        const sortValue = this.value;
+        const sortedKeys = Object.keys(filteredData).sort((a, b) => {
+            const first = filteredData[a];
+            const second = filteredData[b];
+
+            if (sortValue === 'name-asc') return a.localeCompare(b);
+            if (sortValue === 'name-desc') return b.localeCompare(a);
+            if (sortValue === 'success-rate-desc') {
+                return (second[0]?.metrics?.success_rate || 0) - (first[0]?.metrics?.success_rate || 0);
+            }
+            if (sortValue === 'success-rate-asc') {
+                return (first[0]?.metrics?.success_rate || 0) - (second[0]?.metrics?.success_rate || 0);
+            }
+        });
+
+        const newData = {};
+        sortedKeys.forEach(key => (newData[key] = filteredData[key]));
+        renderDashboard(newData);
+    });
+
+    document.getElementById('filterSelect').addEventListener('change', function () {
+        const filterValue = this.value;
+        filteredData = {};
+        Object.keys(data).forEach(repoName => {
+            const workflows = data[repoName];
+            if (filterValue === 'all') {
+                filteredData[repoName] = workflows;
+            } else if (filterValue === 'with-workflows' && workflows.length > 0) {
+                filteredData[repoName] = workflows;
+            } else if (filterValue === 'without-workflows' && workflows.length === 0) {
+                filteredData[repoName] = workflows;
+            }
+        });
+        renderDashboard(filteredData);
+    });
+</script>
+
+</body>
+</html>
