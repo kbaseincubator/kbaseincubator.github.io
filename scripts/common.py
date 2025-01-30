@@ -198,9 +198,9 @@ def get_codecov_coverage(owner, repo, branch):
 def get_codecov_coverage_for_all_repos():
     """Get the coverage for all KBase repositories on 'main', 'master', and 'develop' branches."""
 
-    cache_file = f"cache/coverage_cache_{today}.json"
-    if os.path.exists(cache_file) and os.path.getsize(cache_file) > 0:
-        with open(cache_file, "r") as f:
+    ccf = f"cache/coverage_cache_{today}.json"
+    if os.path.exists(ccf) and os.path.getsize(ccf) > 0:
+        with open(ccf, "r") as f:
             return json.load(f)
 
     coverage = defaultdict(lambda: defaultdict(dict))
@@ -209,6 +209,10 @@ def get_codecov_coverage_for_all_repos():
         owner, repo_name = repo["full_name"].split("/")
         for branch in ["main", "master", "develop"]:
             coverage[repo_name][branch]["coverage"] = get_codecov_coverage(owner, repo_name, branch)
+
+    with open(ccf, "w") as f:
+        json.dump(coverage, f, indent=4)
+
     return coverage
 
 
