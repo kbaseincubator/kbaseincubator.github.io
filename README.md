@@ -2,17 +2,17 @@
 
 # Test Coverage
 
-## [actions_cache.json](scripts/actions_cache_2025-02-03.json) 
+## [actions_cache.json](scripts/cache/actions_cache_2025-02-03.json) 
 * contains all GitHub Actions workflows for a given repository. 
 * You can use this to filter out the workflows you want to analyze.
 * Not all repos have github actions set up
 
-## [actions_last_5_cache.json](scripts/actions_last_5_cache_2025-02-03.json) 
+## [actions_last_5_cache.json](scripts/cache/actions_last_5_cache_2025-02-03.json) 
 * contains the last 5 runs of each `test` workflow in the repository.
 * The action must contain the word `test` in its name in order to make it into this file
 * We save the last N runs for `main|master|develop` branches
 
-## [coverage_cache.json](scripts/coverage_cache_2025-02-03.json) 
+## [coverage_cache.json](scripts/cache/coverage_cache_2025-02-03.json) 
   * contains the coverage data from codecov.io for a given repository.
   * contains coverage for `main|master|develop` branches
 
