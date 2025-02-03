@@ -1,0 +1,1311 @@
+{
+    "auth": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "workspace_deluxe": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 87.78
+        },
+        "develop": {
+            "coverage": 87.78
+        }
+    },
+    "jars": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbapi_common": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "java_common": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 39.34
+        },
+        "develop": {
+            "coverage": 39.34
+        }
+    },
+    "narrative": {
+        "main": {
+            "coverage": 25.91
+        },
+        "master": {
+            "coverage": 26.53
+        },
+        "develop": {
+            "coverage": 25.9
+        }
+    },
+    "shock_java_client": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 65.53
+        },
+        "develop": {
+            "coverage": 65.53
+        }
+    },
+    "metrics": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "narrative_method_store": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 70.08
+        },
+        "develop": {
+            "coverage": 70.08
+        }
+    },
+    "narrative_method_specs": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "user_profile": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 58.44
+        },
+        "develop": {
+            "coverage": 58.44
+        }
+    },
+    "project_guides": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_sdk": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "narrative_method_specs_ci": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-typeview": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "catalog": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 80.14
+        }
+    },
+    "kbase-service-clients-js": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-common-js": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-dataview": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-cdn-js": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "NarrativeViewers": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "taxon_api": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "genome_annotation_api": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 70.02
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "assembly_api": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "service_wizard": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "auth2": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 93.37
+        },
+        "develop": {
+            "coverage": 93.37
+        }
+    },
+    "KBaseDeveloperBootstrap": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-common-ts": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "check_mk": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_minideb": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-jgi-search": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_jre": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_perl": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-feeds": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "staging_service": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "dockerize": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "db_initialize": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "nginx": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-catalog": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-data-search": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "sdkbase2": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "condor": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_python": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_sdk_docs": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase.github.io": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-common-es6": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "file_cache_server": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-public-search": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "status": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "relation_engine_importers": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 49.61
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "groups": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 94.11
+        },
+        "develop": {
+            "coverage": 94.11
+        }
+    },
+    "condor-worker": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "feeds": {
+        "main": {
+            "coverage": 90.69
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 90.69
+        }
+    },
+    "kbase-ui-plugin-organizations": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "KbaseAppCatalogStatic": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-biochem-search": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "handle_service2": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 84.13
+        },
+        "develop": {
+            "coverage": 84.13
+        }
+    },
+    "index_runner": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "search_api2": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 98.5
+        },
+        "develop": {
+            "coverage": 100.0
+        }
+    },
+    "blobstore": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 90.83
+        },
+        "develop": {
+            "coverage": 90.83
+        }
+    },
+    "JobRunner": {
+        "main": {
+            "coverage": 91.03
+        },
+        "master": {
+            "coverage": 91.03
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-job-browser2": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-react-profile-view": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "execution_engine2": {
+        "main": {
+            "coverage": 88.68
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 88.68
+        }
+    },
+    "taxonomy_re_api": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "narrative-traefiker": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "ui-assets": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "ErrorLogging": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "sample_service": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbasedevopschallenge": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "sample_service_validator_config": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-samples": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "navigator": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "systemmetrics": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-taxonomy": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-ui-plugin-ontology": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "exascale_data": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "relation_engine": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "shocktos3scripts": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "init-sidecar": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "db_zip2cloud": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "ui": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "elasticsearch7": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "reference_data_updater": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "static-content": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "sample_search_api": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "train_rdp_clsf": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "sdkpython": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    ".github": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kbase-template": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "credit_engine": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 97.23
+        }
+    },
+    "zookeeper-docker": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "narrative-base-image": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "collections": {
+        "main": {
+            "coverage": 46.14
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 46.08
+        }
+    },
+    "kbase-service-orcidlink": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "spec_review": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "dts": {
+        "main": {
+            "coverage": 57.63
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "service_wizard2": {
+        "main": {
+            "coverage": 100.0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 100.0
+        }
+    },
+    "static-content-proxy": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "static-ui": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "mongo-dump": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "auth2_client_java": {
+        "main": {
+            "coverage": 92.38
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 92.38
+        }
+    },
+    "java_test_utilities": {
+        "main": {
+            "coverage": 0.0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0.0
+        }
+    },
+    "java_kidl": {
+        "main": {
+            "coverage": 61.5
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-prototype-spark": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-jupyterhub": {
+        "main": {
+            "coverage": 41.64
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "dtspy": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-prototype-starrocks": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-prototype-hive": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_sdk_patch": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-prototype-yarn": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-task-service": {
+        "main": {
+            "coverage": 50.77
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-spark-standalone": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "gha-tests": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "policies": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "kb_sdk_plus": {
+        "main": {
+            "coverage": 45.15
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-schema": {
+        "main": {
+            "coverage": 0
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    },
+    "cdm-data-loader-utils": {
+        "main": {
+            "coverage": 90.32
+        },
+        "master": {
+            "coverage": 0
+        },
+        "develop": {
+            "coverage": 0
+        }
+    }
+}
