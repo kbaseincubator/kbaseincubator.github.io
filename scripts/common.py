@@ -1,13 +1,14 @@
 # Set your GitHub personal access token and KBase organization name
-import dataclasses
 import json
 import logging
 import os
+import sys
 import time
 from collections import defaultdict
 from datetime import datetime
+
+import pandas as pd
 import requests
-import sys
 
 logging.basicConfig(level=logging.INFO)
 
@@ -24,6 +25,18 @@ ignored_workflows = ['.github/workflows/pr_build.yml', '.github/workflows/manual
                      '.github/workflows/release-main.yml', '.github/workflows/release.yml',
                      '.github/workflows/build_test_pr.yaml', '.github/workflows/build_prodrc_pr.yaml',
                      '.github/workflows/tag_latest_image.yaml']
+
+DEPENDABOT_ECOSYSTEMS = [
+    "composer",
+    "go",
+    "maven",
+    "npm",
+    "nuget",
+    "pip",
+    "rubygems",
+    "rust",
+    "swift"
+]
 
 def timed(func):
     def wrapper(*args, **kwargs):
@@ -96,7 +109,7 @@ def get_cached_actions_for_all_repos(repos):
         with open(cache_file, "r") as f:
             return json.load(f)
     else:
-        logging.info("Fetching all KBase repos since cache file does not exist")
+        logging.info("Fetching all githb actions workflow runs since cache file does not exist")
         actions = {}
         for repo in repos:
             repo_full_name = repo['full_name']
@@ -174,18 +187,17 @@ def get_codecov_coverage(owner, repo, branch):
       - Coverage percentage (float) or 0 if no coverage data is found
     """
 
-    codecov_url = f"https://api.codecov.io/api/v2/github/{owner}/repos/{repo}"
+    codecov_url = f"https://api.codecov.io/api/v2/github/{owner}/repos/{repo}/branches/{branch}"
     try:
-        resp = requests.get(codecov_url, headers={"accept": "application/json"}, params={"branch": branch})
+        resp = requests.get(codecov_url, headers={"accept": "application/json"})
         if resp.status_code == 200:
             data = resp.json()
-            totals = data.get("totals")
-            if totals is not None:
-                coverage = totals.get("coverage", 0)
-                return coverage
-            else:
+            totals = data.get("head_commit").get("totals")
+            if not totals:
                 logging.info(f"No coverage totals available for {owner}/{repo} on branch {branch}.")
                 return 0
+            coverage = totals.get("coverage", 0) if isinstance(totals, dict) else 0
+            return coverage
         else:
             logging.error(f"Error fetching Codecov coverage for {owner}/{repo} on branch {branch}: {resp.status_code}, {resp.text}")
             return 0
@@ -216,23 +228,115 @@ def get_codecov_coverage_for_all_repos():
     return coverage
 
 
-get_codecov_coverage_for_all_repos()
+def get_dependabot_alerts(repo_full_name):
+    """Fetch Dependabot alerts for the given repository."""
+    url = f"{GITHUB_API_URL}/repos/{repo_full_name}/dependabot/alerts"
+    resp = requests.get(url, headers=HEADERS)
+    if resp.status_code == 200:
+        return resp.json()
+    print(f"Error fetching Dependabot alerts for {repo_full_name}: {resp.status_code}, {resp.text}")
+    return []
 
-# from models import Repo
+@timed
+def get_dependabot_alerts_for_all_repos():
+    """Fetch Dependabot alerts for all KBase repositories."""
 
-# def build_repo_report():
-#     coverage_report = defaultdict(lambda: defaultdict(dict))
-#     workflow_report = defaultdict(lambda: defaultdict(dict))
+    ccf = f"cache/dependabot_cache_{today}.json"
+    if os.path.exists(ccf) and os.path.getsize(ccf) > 0:
+        with open(ccf, "r") as f:
+            return json.load(f)
 
-#     # Get coverage for each branch
-#     for repo in get_all_kbase_repos():
+    alerts = {}
+    for repo in get_all_kbase_repos():
+        repo_name = repo["full_name"]
+        alerts[repo_name] = get_dependabot_alerts(repo_name)
+
+    with open(ccf, "w") as f:
+        json.dump(alerts, f, indent=4)
+
+    return alerts
 
 
-#         owner, repo_name = repo["full_name"].split("/")
-#         for branch in ["main", "master", "develop"]:
-#             coverage = get_codecov_coverage(owner, repo_name, branch)
-#             coverage_report[repo_name][branch]["coverage"] = coverage
+def build_report():
+    coverage = get_codecov_coverage_for_all_repos()
+    last_n_actions = get_last_n_workflow_runs(5)
+    dependabot_alerts = get_dependabot_alerts_for_all_repos()
 
+
+    report_data = []
+
+    for repo in get_all_kbase_repos():
+        repo_name = repo["full_name"]
+        repo_coverage = coverage.get(repo_name.split("/")[-1], {})
+        repo_alerts = dependabot_alerts.get(repo_name, [])
+        # Get counts of alerts filtered DEPENDABOT_ECOSYSTEMS or Other
+        filtered_repo_alert_counts =
+
+
+        # Extract coverage values
+        coverage_develop = repo_coverage.get("develop", {}).get("coverage", "N/A")
+        coverage_main = repo_coverage.get("main", {}).get("coverage", "N/A")
+        coverage_master = repo_coverage.get("master", {}).get("coverage", "N/A")
+
+        # Get workflow runs per branch
+        last_actions = last_n_actions.get(repo_name, {})
+        filtered_actions = defaultdict(dict)
+        for branch, actions_list in last_actions.items():
+            for action in actions_list:
+                action_name = action['name']
+                action_conclusion = action['conclusion']
+                # if conclusion is success, set it to 1, else 0
+                action_conclusion = 1 if action_conclusion == 'success' else 0
+
+                # print(repo_name, branch, action_name, action_conclusion)
+                if not branch in filtered_actions[action_name]:
+                    filtered_actions[action_name][branch] = []
+                filtered_actions[action_name][branch].append(action_conclusion)
+
+        if filtered_actions:
+            for action in filtered_actions:
+                report_data.append([
+                    repo_name,
+                    action,
+                    filtered_actions[action].get("develop", "N/A"),
+                    filtered_actions[action].get("main", "N/A"),
+                    filtered_actions[action].get("master", "N/A"),
+                    coverage_develop,
+                    coverage_main,
+                    coverage_master
+                ])
+        else:
+            # No actions found; add a row with coverage data and a "No Actions" placeholder.
+            report_data.append([
+                repo_name,
+                "No Test Actions Found",
+                "N/A",
+                "N/A",
+                "N/A",
+                coverage_develop,
+                coverage_main,
+                coverage_master
+            ])
+
+
+
+
+    # Convert to DataFrame
+    columns = ["Repo Name", "Action Name", "Last 5 Develop Pass/Fail", "Last 5 Main Pass/Fail",
+               "Last 5 Master Pass/Fail", "Coverage Develop", "Coverage Main", "Coverage Master"] + DEPENDABOT_ECOSYSTEMS + ["Other"]
+    df = pd.DataFrame(report_data, columns=columns)
+
+    # Save to CSV
+    csv_filename = "github_actions_report.csv"
+    df.to_csv(csv_filename, index=False)
+
+    print(f"Report saved to {csv_filename}")
+
+    return csv_filename  # Returning file name in case further processing is needed
+
+
+
+build_report()
 
 #     # Get the last N workflow runs
 #     last_runs = get_last_n_workflow_runs(5)
