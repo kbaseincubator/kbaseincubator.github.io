@@ -257,10 +257,33 @@ def get_dependabot_alerts_for_all_repos():
     return alerts
 
 
+def get_cve_report_for_repo(repo_full_name):
+    pass
+
+def get_cve_report_for_all_repos():
+    """Fetch Dependabot alerts for all KBase repositories."""
+
+    ccf = f"cache/cve_cache_{today}.json"
+    if os.path.exists(ccf) and os.path.getsize(ccf) > 0:
+        with open(ccf, "r") as f:
+            return json.load(f)
+
+    cve_report = {}
+    for repo in get_all_kbase_repos():
+        repo_name = repo["full_name"]
+        cve_report[repo_name] = get_cve_report_for_repo(repo_name)
+
+    with open(ccf, "w") as f:
+        json.dump(cve_report, f, indent=4)
+
+    return cve_report
+
+
 def build_report():
     coverage = get_codecov_coverage_for_all_repos()
     last_n_actions = get_last_n_workflow_runs(5)
     dependabot_alerts = get_dependabot_alerts_for_all_repos()
+    cve_report = get_cve_report_for_all_repos()
 
 
     report_data = []
@@ -268,9 +291,8 @@ def build_report():
     for repo in get_all_kbase_repos():
         repo_name = repo["full_name"]
         repo_coverage = coverage.get(repo_name.split("/")[-1], {})
-        repo_alerts = dependabot_alerts.get(repo_name, [])
+        # repo_alerts = dependabot_alerts.get(repo_name, [])
         # Get counts of alerts filtered DEPENDABOT_ECOSYSTEMS or Other
-        filtered_repo_alert_counts =
 
 
         # Extract coverage values
@@ -323,7 +345,7 @@ def build_report():
 
     # Convert to DataFrame
     columns = ["Repo Name", "Action Name", "Last 5 Develop Pass/Fail", "Last 5 Main Pass/Fail",
-               "Last 5 Master Pass/Fail", "Coverage Develop", "Coverage Main", "Coverage Master"] + DEPENDABOT_ECOSYSTEMS + ["Other"]
+               "Last 5 Master Pass/Fail", "Coverage Develop", "Coverage Main", "Coverage Master"]
     df = pd.DataFrame(report_data, columns=columns)
 
     # Save to CSV

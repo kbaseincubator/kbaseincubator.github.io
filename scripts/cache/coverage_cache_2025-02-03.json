@@ -1233,7 +1233,7 @@
     },
     "cdm-task-service": {
         "main": {
-            "coverage": 50.77
+            "coverage": 51.13
         },
         "master": {
             "coverage": 0

@@ -20164,7 +20164,7 @@
                     }
                 ],
                 "published_at": "2025-01-16T00:31:22Z",
-                "updated_at": "2025-01-17T15:39:06Z",
+                "updated_at": "2025-02-03T17:34:22Z",
                 "withdrawn_at": null,
                 "vulnerabilities": [
                     {
@@ -20204,6 +20204,10 @@
                     {
                         "cwe_id": "CWE-185",
                         "name": "Incorrect Regular Expression"
+                    },
+                    {
+                        "cwe_id": "CWE-1333",
+                        "name": "Inefficient Regular Expression Complexity"
                     }
                 ]
             },
@@ -31384,7 +31388,7 @@
                     }
                 ],
                 "published_at": "2025-01-16T00:31:22Z",
-                "updated_at": "2025-01-17T15:39:06Z",
+                "updated_at": "2025-02-03T17:34:22Z",
                 "withdrawn_at": null,
                 "vulnerabilities": [
                     {
@@ -31424,6 +31428,10 @@
                     {
                         "cwe_id": "CWE-185",
                         "name": "Incorrect Regular Expression"
+                    },
+                    {
+                        "cwe_id": "CWE-1333",
+                        "name": "Inefficient Regular Expression Complexity"
                     }
                 ]
             },
@@ -31489,7 +31497,7 @@
                     }
                 ],
                 "published_at": "2025-01-16T00:31:22Z",
-                "updated_at": "2025-01-17T15:39:06Z",
+                "updated_at": "2025-02-03T17:34:22Z",
                 "withdrawn_at": null,
                 "vulnerabilities": [
                     {
@@ -31529,6 +31537,10 @@
                     {
                         "cwe_id": "CWE-185",
                         "name": "Incorrect Regular Expression"
+                    },
+                    {
+                        "cwe_id": "CWE-1333",
+                        "name": "Inefficient Regular Expression Complexity"
                     }
                 ]
             },
