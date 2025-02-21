@@ -4,7 +4,7 @@ import logging
 import os
 import sys
 import time
-from collections import defaultdict
+from collections import defaultdict, Counter
 from datetime import datetime
 
 import pandas as pd
@@ -37,6 +37,36 @@ DEPENDABOT_ECOSYSTEMS = [
     "rust",
     "swift"
 ]
+
+repositories = [
+    "kbase/auth2",
+    "jgi-kbase/AssemblyHomologyService",
+    "kbase/execution_engine2",
+    "kbase/blobstore",
+    "kbase/file_cache_server",
+    "kbase/catalog",
+    "kbase/collections",
+    "kbase/data_import_export",
+    "kbase/feeds",
+    "kbase/groups",
+    "jgi-kbase/IDMappingService",
+    "kbase/handle_service2",
+    "kbase/narrative_method_store",
+    "kbase/relation_engine",
+    "kbase/staging_service",
+    "kbaseapps/sketch_service",
+    "kbase/sample_service",
+    "kbase/search_api2",
+    "kbase/service_wizard",
+    "kbase/user_profile",
+    "kbase/workspace_deluxe",
+    "kbase/kb_sdk",
+    "kbase/narrative",
+    "kbase/narrative-traefiker"
+]
+
+
+
 
 def timed(func):
     def wrapper(*args, **kwargs):
@@ -149,10 +179,12 @@ def get_last_n_workflow_runs(last_n=5):
         with open(cache_file, "r") as f:
             return json.load(f)
 
-    last_n_runs = {}
+    last_n_runs = defaultdict(dict)
 
     for repo, workflows in actions.items():
+
         for workflow in workflows:
+
             if workflow['path'] in ignored_workflows or "test" not in workflow['name'].lower():
                 continue
 
@@ -161,7 +193,7 @@ def get_last_n_workflow_runs(last_n=5):
                 "main": _get_workflow_runs(repo, workflow['id'], branch="main", last_n=last_n),
                 "master": _get_workflow_runs(repo, workflow['id'], branch="master", last_n=last_n)
             }
-            last_n_runs[repo] = repo_results
+            last_n_runs[repo][workflow['path']] = repo_results
         # Add empty results for repos that don't have any workflows
         if repo not in last_n_runs:
             last_n_runs[repo] = {}
@@ -238,7 +270,7 @@ def get_dependabot_alerts(repo_full_name):
     return []
 
 @timed
-def get_dependabot_alerts_for_all_repos():
+def get_dependabot_security_alerts_for_all_repos():
     """Fetch Dependabot alerts for all KBase repositories."""
 
     ccf = f"cache/dependabot_cache_{today}.json"
@@ -257,102 +289,119 @@ def get_dependabot_alerts_for_all_repos():
     return alerts
 
 
-def get_cve_report_for_repo(repo_full_name):
-    pass
 
-def get_cve_report_for_all_repos():
-    """Fetch Dependabot alerts for all KBase repositories."""
 
-    ccf = f"cache/cve_cache_{today}.json"
+
+
+
+def get_test_results(repo_name, default_branch="main"):
+    last_n_actions = get_last_n_workflow_runs(1)
+    last_actions = last_n_actions.get(repo_name, {})
+
+
+    tests = {}
+
+    for action_path in last_actions:
+        action = last_actions[action_path].get(default_branch, [])
+        last_run = action[0] if action else {}
+        conclusion = last_run.get("conclusion", "N/A")
+        if conclusion == "success":
+            tests[action_path] = True
+        elif conclusion == "failure":
+            tests[action_path] = False
+        else:
+            tests[action_path] = "N/A"
+
+    if repo_name == "kbase/execution_engine2":
+        print(tests)
+
+    for item in tests.values():
+        if item is not True:
+            return False
+    return True
+
+
+def get_cves(repo_name, dependabot):
+    cves = dependabot.get(repo_name, [])
+    if not cves:
+        return ["N/A" for _ in range(4)]
+
+    c = Counter()
+    for item in cves:
+        c[item["security_advisory"]["severity"]] += 1
+
+    return [c['low'], c['medium'], c['high'], c['critical']]
+
+
+def get_open_dependabot_prs(repo_full_name, dependabot=None):
+    """Fetch open Dependabot PRs for the given repository."""
+    if not dependabot:
+        url = f"{GITHUB_API_URL}/repos/{repo_full_name}/pulls"
+        params = {"state": "open", "creator": "dependabot[bot]"}
+        resp = requests.get(url, headers=HEADERS, params=params)
+        if resp.status_code == 200:
+            return resp.json()
+        print(f"Error fetching Dependabot PRs for {repo_full_name}: {resp.status_code}, {resp.text}")
+        return []
+    else:
+        return dependabot.get(repo_full_name, [])
+
+def get_open_dependabot_prs_for_all_repos():
+    """Fetch open Dependabot PRs for all KBase repositories."""
+    ccf = f"cache/dependabot_pr_cache_{today}.json"
     if os.path.exists(ccf) and os.path.getsize(ccf) > 0:
         with open(ccf, "r") as f:
             return json.load(f)
 
-    cve_report = {}
+    prs = {}
     for repo in get_all_kbase_repos():
         repo_name = repo["full_name"]
-        cve_report[repo_name] = get_cve_report_for_repo(repo_name)
+        prs[repo_name] = get_open_dependabot_prs(repo_name)
 
     with open(ccf, "w") as f:
-        json.dump(cve_report, f, indent=4)
+        json.dump(prs, f, indent=4)
 
-    return cve_report
+    return prs
 
+
+def report_open_dependabot_prs(repo_name, open_dependabot_prs):
+    prs = open_dependabot_prs.get(repo_name, [])
+    return len(prs)
 
 def build_report():
-    coverage = get_codecov_coverage_for_all_repos()
-    last_n_actions = get_last_n_workflow_runs(5)
-    dependabot_alerts = get_dependabot_alerts_for_all_repos()
-    cve_report = get_cve_report_for_all_repos()
+    columns = ['repo', 'tests_pass', 'coverage', 'open_dependabot_prs', 'low', 'medium', 'high', 'critical']
+    # If there are multiple actions with the word test, and one of them is a "failure" then we will say that tests are failing
+    # Coverage and CVEs will be reported for the default branch
 
+
+    coverage = get_codecov_coverage_for_all_repos()
+    dependabot_security_alerts = get_dependabot_security_alerts_for_all_repos()
+    open_dependabot_prs = get_open_dependabot_prs_for_all_repos()
 
     report_data = []
-
     for repo in get_all_kbase_repos():
         repo_name = repo["full_name"]
+        default_branch = repo["default_branch"]
         repo_coverage = coverage.get(repo_name.split("/")[-1], {})
-        # repo_alerts = dependabot_alerts.get(repo_name, [])
-        # Get counts of alerts filtered DEPENDABOT_ECOSYSTEMS or Other
+        default_coverage = repo_coverage.get(default_branch, {}).get("coverage", "N/A")
+        cves = get_cves(repo_name, dependabot_security_alerts)
+        test_workflow_results = get_test_results(repo_name=repo_name, default_branch=default_branch)
+        pr_count = report_open_dependabot_prs(repo_name, open_dependabot_prs=open_dependabot_prs)
+        report_data.append([repo_name, test_workflow_results, default_coverage, pr_count,  *cves])
 
 
-        # Extract coverage values
-        coverage_develop = repo_coverage.get("develop", {}).get("coverage", "N/A")
-        coverage_main = repo_coverage.get("main", {}).get("coverage", "N/A")
-        coverage_master = repo_coverage.get("master", {}).get("coverage", "N/A")
-
-        # Get workflow runs per branch
-        last_actions = last_n_actions.get(repo_name, {})
-        filtered_actions = defaultdict(dict)
-        for branch, actions_list in last_actions.items():
-            for action in actions_list:
-                action_name = action['name']
-                action_conclusion = action['conclusion']
-                # if conclusion is success, set it to 1, else 0
-                action_conclusion = 1 if action_conclusion == 'success' else 0
-
-                # print(repo_name, branch, action_name, action_conclusion)
-                if not branch in filtered_actions[action_name]:
-                    filtered_actions[action_name][branch] = []
-                filtered_actions[action_name][branch].append(action_conclusion)
-
-        if filtered_actions:
-            for action in filtered_actions:
-                report_data.append([
-                    repo_name,
-                    action,
-                    filtered_actions[action].get("develop", "N/A"),
-                    filtered_actions[action].get("main", "N/A"),
-                    filtered_actions[action].get("master", "N/A"),
-                    coverage_develop,
-                    coverage_main,
-                    coverage_master
-                ])
-        else:
-            # No actions found; add a row with coverage data and a "No Actions" placeholder.
-            report_data.append([
-                repo_name,
-                "No Test Actions Found",
-                "N/A",
-                "N/A",
-                "N/A",
-                coverage_develop,
-                coverage_main,
-                coverage_master
-            ])
-
-
-
-
-    # Convert to DataFrame
-    columns = ["Repo Name", "Action Name", "Last 5 Develop Pass/Fail", "Last 5 Main Pass/Fail",
-               "Last 5 Master Pass/Fail", "Coverage Develop", "Coverage Main", "Coverage Master"]
     df = pd.DataFrame(report_data, columns=columns)
-
     # Save to CSV
     csv_filename = "github_actions_report.csv"
     df.to_csv(csv_filename, index=False)
-
     print(f"Report saved to {csv_filename}")
+
+    # Now print  a version of the df to a file with a subset of the data using the list of repos
+    csv_filename = "github_actions_report_subset.csv"
+    df[df['repo'].isin(repositories)].to_csv(csv_filename, index=False)
+    print(f"Subset report saved to {csv_filename}")
+
+
 
     return csv_filename  # Returning file name in case further processing is needed
 
